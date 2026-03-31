@@ -1,11 +1,11 @@
 @page "/"
 @inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@using BlazingPizza.Model
 @using BlazingPizza.Services
 @inject OrderState OrderState
 
 <div class="main">
-  <h1>Blazing Pizzas</h1>
   <ul class="pizza-cards">
     @if (specials != null)
     {
@@ -27,7 +27,7 @@
 @if (OrderState.ShowingConfigureDialog)
 {
   <ConfigurePizzaDialog Pizza="OrderState.ConfiguringPizza" OnCancel="OrderState.CancelConfigurePizzaDialog"
-                        OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
+                        OnConfirm="OrderState.ConfirmConfigurePizzaDialog"/>
 }
 <div class="sidebar">
   @if (order.Pizzas.Any())
@@ -60,6 +60,7 @@
     </a>
   </div>
 </div>
+
 @code {
   List<PizzaSpecial> specials = new();
   Order order => OrderState.Order;
@@ -68,4 +69,5 @@
   {
     specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
   }
+
 }

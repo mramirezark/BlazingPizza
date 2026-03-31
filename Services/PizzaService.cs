@@ -1,17 +1,12 @@
-using Microsoft.AspNetCore.Mvc;
+using BlazingPizza.Data;
+using BlazingPizza.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazingPizza.Data;
-public class PizzaService
+namespace BlazingPizza.Services;
+public class PizzaService(PizzaStoreContext db) : IPizzaService
 {
-     private readonly PizzaStoreContext _db;
-
-     public PizzaService(PizzaStoreContext db)
-    {
-        _db = db;
-    }
     public async Task<List<PizzaSpecial>> GetSpecials()
     {
-       return (await _db.Specials.ToListAsync()).OrderByDescending(s => s.BasePrice).ToList();
+       return (await db.Specials.ToListAsync()).OrderByDescending(s => s.BasePrice).ToList();
     }
 }
